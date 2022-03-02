@@ -3,6 +3,8 @@ import locationIcon from "../Images/location.png";
 import searchIcon from "../Images/search.png";
 import Image from "react-bootstrap/Image";
 import Card from 'react-bootstrap/Card'
+import { Col, Container, Row } from "react-bootstrap";
+import { Input } from "antd";
 
 const Home = () => {
     const [weatherData, setWeatherData] = useState({});
@@ -42,7 +44,7 @@ const Home = () => {
             else if (response.status === 404) {
                 const tempWeatherData = {
                     temperature: 0,
-                    description: "Try searching somthing else!",
+                    description: "Couldn't find anything!",
                     humidity: 0,
                     windSpeed: 0,
                     city: "No data found for " + params.toUpperCase()
@@ -71,60 +73,69 @@ const Home = () => {
 
     return (
         <>
-            <Image fluid src={displayImage} style={{ position: "absolute" }} alt="City Image" />
-            <div className="container" style={{ position: "relative", transform: "translateY(29%)" }}>
-                <div className="row">
-                    <div className="col-11" style={{ fontSize: "40px", color: "white" }}>
-                        {weatherData.city}
-                    </div>
-                    <div className="col-3">
-                        <p style={{ fontSize: "55px", color: "white", marginBottom: "0" }}>{weatherData.temperature}&deg;</p>
-                        <p style={{ color: "white", marginBottom: "0" }}>{weatherData.description}</p>
-                    </div>
-                    <div className="col-2" style={{ borderRight: "2px solid white" }}>
-                        <p style={{ color: "white", textAlign: "center" }}>HUMIDITY</p>
-                        <p style={{ fontSize: "25px", color: "white", textAlign: "center" }}>{weatherData.humidity}%</p>
-                    </div>
-                    <div className="col-2">
-                        <p style={{ color: "white", textAlign: "center" }}>WIND</p>
-                        <p style={{ fontSize: "25px", color: "white", textAlign: "center" }}>{weatherData.windSpeed} KM/H</p>
-                    </div>
-                </div> <br /><br /><br />
-                <div className="container" style={{ maxWidth: '50%' }}>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text"><Image rounded src={searchIcon} /></span>
-                        <input type="text"
-                            value={search}
-                            onChange={handleInputChange}
-                            placeholder="Search Location"
-                            className="form-control"
-                            id="search" />
-                        <span className="input-group-text"><Image rounded src={locationIcon} /></span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-3">
-                        <Card bg="danger" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("france") }} style={{ width: '10rem', height: '10rem' }}>
-                            <Card.Title>FRANCE</Card.Title>
-                        </Card>
-                    </div>
-                    <div className="col-3">
-                        <Card bg="info" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("north africa") }} style={{ width: '10rem', height: '10rem' }}>
-                            <Card.Title>NORTH AFRICA</Card.Title>
-                        </Card>
-                    </div>
-                    <div className="col-3">
-                        <Card bg="success" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("qatar") }} style={{ width: '10rem', height: '10rem' }}>
-                            <Card.Title>QATAR</Card.Title>
-                        </Card>
-                    </div>
-                    <div className="col-3">
-                        <Card bg="warning" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("japan") }} style={{ width: '10rem', height: '10rem' }}>
-                            <Card.Title>JAPAN</Card.Title>
-                        </Card>
-                    </div>
-                </div>
+            <div className="container" style={{ position: "relative", maxInlineSize: "fit-content", paddingLeft: "0", paddingRight: "0" }}>
+                <Image fluid src={displayImage} style={{ height: "372px" }} alt="City Image" />
+                <Container fluid className="align-items-center d-flex" style={{ position: "absolute", top: "25%" }}>
+                    <Container>
+                        <Row>
+                            <Col md={11} >
+                                <p className="text-sm-center text-md-start" style={{ fontSize: "40px", color: "white", marginBottom: "10px" }}>{weatherData.city}</p>
+                            </Col>
+                            <Col lg={2}>
+                                <p style={{ fontSize: "55px", color: "white", marginBottom: "0" }}>{weatherData.temperature}&deg;</p>
+                                <p style={{ color: "white", marginBottom: "0" }}>{weatherData.description}</p>
+                            </Col>
+                            <Col md={2} xs={6} sm={6} style={{ borderRight: "2px solid white" }}>
+                                <p style={{ color: "white", textAlign: "center" }}>HUMIDITY</p>
+                                <p style={{ fontSize: "25px", color: "white", textAlign: "center" }}>{weatherData.humidity}%</p>
+                            </Col>
+                            <Col md={2} xs={6} sm={6}>
+                                <p style={{ color: "white", textAlign: "center" }}>WIND</p>
+                                <p style={{ fontSize: "25px", color: "white", textAlign: "center" }}>{weatherData.windSpeed} KM/H</p>
+                            </Col>
+                        </Row> <br />
+                    </Container>
+                </Container>
             </div>
+            <Container>
+                <Container fluid className="d-flex justify-content-center">
+                    <Input placeholder="Search Location"
+                        size="large"
+                        type="text"
+                        value={search}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        id="search"
+                        prefix={<Image src={searchIcon} />}
+                        suffix={<Image src={locationIcon} />}
+                        style={{ borderRadius: "25px", maxWidth: "60%", marginTop: "20px", marginBottom: "10px" }} />
+                </Container>
+                <Container fluid>
+                    <Row>
+                        <Col className="align-items-center d-flex justify-content-center" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                            <Card bg="danger" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("france") }} style={{ width: '15rem', height: '15rem', borderRadius: '15%' }}>
+                                <Card.Title>FRANCE</Card.Title>
+                            </Card>
+                        </Col>
+                        <Col className="align-items-center d-flex justify-content-center" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                            <Card bg="info" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("north africa") }} style={{ width: '15rem', height: '15rem', borderRadius: '15%' }}>
+                                <Card.Title>NORTH AFRICA</Card.Title>
+                            </Card>
+                        </Col>
+                        <Col className="align-items-center d-flex justify-content-center" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                            <Card bg="success" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("qatar") }} style={{ width: '15rem', height: '15rem', borderRadius: '15%' }}>
+                                <Card.Title>QATAR</Card.Title>
+                            </Card>
+                        </Col>
+                        <Col className="align-items-center d-flex justify-content-center" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                            <Card bg="warning" text="white" className="align-items-center d-flex justify-content-center" onClick={() => { getWeatherData("japan") }} style={{ width: '15rem', height: '15rem', borderRadius: '15%' }}>
+                                <Card.Title>JAPAN</Card.Title>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </Container>
+
         </>
     )
 }
